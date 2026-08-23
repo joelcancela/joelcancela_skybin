@@ -1,0 +1,35 @@
+# # Wakes up my PC from the internet (requires wakeonlan and dig (extra/bind package)).
+config_file=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)/.bin/wake.cfg
+if [ ! -f "$config_file" ]; then
+	printf '%s\n' "Error: $config_file not found." >&2
+	exit 1
+fi
+
+mac=
+host=
+while IFS='=' read -r key value; do
+	case "$key" in
+		''|\#*) continue ;;
+		MAC) mac=$value ;;
+		HOST) host=$value ;;
+		esac
+done < "$config_file"
+
+if [ -z "$mac" ]; then
+	printf '%s\n' 'Error: MAC not configured in .bin/wake.cfg.' >&2
+	exit 1
+fi
+if [ -z "$host" ]; then
+	printf '%s\n' 'Error: HOST not configured in .bin/wake.cfg.' >&2
+	exit 1
+fi
+if ! command -v wakeonlan >/dev/null 2>&1 || ! command -v dig >/dev/null 2>&1; then
+	printf '%s\n' 'Error: wakeonlan and dig are required.' >&2
+	exit 127
+fi
+address=$(dig +short "$host" | head -n 1)
+if [ -z "$address" ]; then
+	printf '%s\n' "Error: could not resolve $host." >&2
+	exit 1
+fi
+exec wakeonlan -i "$address" -p 9 "$mac"

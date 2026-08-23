@@ -1,0 +1,6 @@
+# Shared wake configuration for wol/wow and their .cmd wrappers
+# Values are read by the scripts instead of being hard-coded
+
+MAC=00:00:00:FF:06:B5
+LOCAL_AGENT=192.168.1.255
+HOST=nightcity.love

@@ -1,0 +1,6 @@
+# # Get battery stats.
+if ! command -v upower >/dev/null 2>&1; then
+	printf '%s\n' 'Error: upower is required.' >&2
+	exit 127
+fi
+exec upower -b

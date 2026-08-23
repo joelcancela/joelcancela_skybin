@@ -1,0 +1,6 @@
+# # Opens FileZilla to transfer files from or to the 'Share' folder.
+if ! command -v filezilla >/dev/null 2>&1; then
+	printf '%s\n' 'Error: FileZilla was not found in PATH.' >&2
+	exit 127
+fi
+exec filezilla -c 0/Share

@@ -1,0 +1,17 @@
+# [markdown filename] # Converts a Markdown file to PDF using pandoc (requires LaTeX and eisvogel).
+if [ "$#" -ne 1 ]; then
+	printf 'Usage: %s FILE.md\n' "$(basename "$0")" >&2
+	exit 2
+fi
+
+input=$1
+case "$input" in
+	*.md) output=${input%.md}.pdf ;;
+	*) output=$input.pdf ;;
+esac
+
+command -v pandoc >/dev/null 2>&1 || {
+	printf '%s\n' 'Error: pandoc is required.' >&2
+	exit 127
+}
+pandoc "$input" -o "$output" --template eisvogel

@@ -1,0 +1,31 @@
+# # Wakes up my PC from the same network (requires wakeonlan).
+config_file=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)/.bin/wake.cfg
+if [ ! -f "$config_file" ]; then
+	printf '%s\n' "Error: $config_file not found." >&2
+	exit 1
+fi
+
+mac=
+local_ip=
+while IFS='=' read -r key value; do
+	case "$key" in
+		''|\#*) continue ;;
+		MAC) mac=$value ;;
+		LOCAL_IP) local_ip=$value ;;
+		esac
+
+done < "$config_file"
+
+if [ -z "$mac" ]; then
+	printf '%s\n' 'Error: MAC not configured in .bin/wake.cfg.' >&2
+	exit 1
+fi
+if [ -z "$local_ip" ]; then
+	printf '%s\n' 'Error: LOCAL_IP not configured in .bin/wake.cfg.' >&2
+	exit 1
+fi
+if ! command -v wakeonlan >/dev/null 2>&1; then
+	printf '%s\n' 'Error: wakeonlan is required.' >&2
+	exit 127
+fi
+exec wakeonlan -i "$local_ip" -p 9 "$mac"

@@ -1,0 +1,6 @@
+# # Executes fastfetch with Gengar colors.
+if ! command -v fastfetch >/dev/null 2>&1; then
+	printf '%s\n' 'Error: fastfetch is required.' >&2
+	exit 127
+fi
+exec fastfetch --color "#9456b4" --logo-color-1 "#670e94" --logo-color-2 "#670e94"

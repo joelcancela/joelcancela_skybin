@@ -1,0 +1,4 @@
+.bin/*
+!.bin/.gitkeep
+!.bin/LockMicVolumeDaemon
+!.bin/wake.cfg-example
