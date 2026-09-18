@@ -22,7 +22,7 @@ find . -type d -name .git -prune -exec sh -c '
 	git "$@"
 	repo_status=$?
 	printf "%s\n" "$repo_status" >> "$status_file"
-	printf '%s\n\n' '-------'
+	printf "%s\n\n" "-------"
 	exit "$repo_status"
 ' sh {} "$status_file" "$@" \;
 find_status=$?
