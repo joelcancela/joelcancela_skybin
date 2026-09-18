@@ -8,7 +8,7 @@ are intended for POSIX shells; `.cmd` files are intended for Windows.
 ## How to use
 
 1. Clone the project.
-2. Add the project folder to `PATH`.
+2. Add the project folder to `PATH`. (You can also run `.scripts/addParentToPath_win.ps1` or `.scripts/addParentToPath_linux.sh`)
 3. Run `shelp` to list the commands available for the current platform.
 4. Put local applications used by the Windows wrappers in `.bin`.
 
